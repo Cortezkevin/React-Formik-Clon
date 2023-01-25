@@ -1,16 +1,18 @@
 import { useForm } from '../hooks/useForm';
-import { FormHandlerArgs, onEventArgs } from '../interfaces/interfaces';
+import { Errors, FormHandlerArgs, Values, onEventArgs } from '../interfaces/interfaces';
 
 interface Props {
     children: ( args: FormHandlerArgs ) => JSX.Element;
-    initialValues: { [ key: string ]: string };
+    initialValues: Values;
     onSubmit: ( args: onEventArgs ) => void;
 		onReset?: ( args: onEventArgs ) => void;
+    validate: ( values: Values ) => Errors;
+    validateOnChange: boolean;
 }
 
-export const Form = ({ initialValues, children, onSubmit, onReset }: Props) => {
+export const Form = ({ initialValues, children, onSubmit, onReset, validate, validateOnChange }: Props) => {
 
-	const { handleSubmit, values, handleChange, isSubmitting, handleReset } = useForm({ initialValues, onSubmit, onReset });
+	const { handleSubmit, values, handleChange, isSubmitting, handleReset, errors, touched, isValid } = useForm({ initialValues, onSubmit, onReset, validate, validateOnChange });
 
   return (
     <div>
@@ -20,7 +22,10 @@ export const Form = ({ initialValues, children, onSubmit, onReset }: Props) => {
 						isSubmitting,
 						values,
 						handleChange,
-						handleReset
+						handleReset,
+            errors,
+            touched,
+            isValid
 					})
         }
     </div>

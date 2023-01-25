@@ -1,8 +1,11 @@
 import { FormEvent, ChangeEvent } from 'react'
 
-export interface Values<K, V> {
-    key: K,
-    value: V
+export interface Values {
+    [ key: string ]: any
+}
+
+export interface Errors {
+    [ key: string ]: string
 }
 
 interface FormHelpers {
@@ -11,14 +14,17 @@ interface FormHelpers {
 }
 
 export interface onEventArgs {
-    values:  {[ key: string ]: string};
+    values: Values;
     helpers: FormHelpers;
 }
 
 export interface FormHandlerArgs {
-    values: {[ key: string ]: string};
+    values: Values;
     handleSubmit: ( e: FormEvent<HTMLFormElement>) => void;
     isSubmitting: boolean;
     handleChange: ( e: ChangeEvent<HTMLInputElement> ) => void;
     handleReset: () => void;
+    errors: Errors;
+    touched: Values;
+    isValid: boolean;
 }
