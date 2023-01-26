@@ -2,11 +2,11 @@ import { useState, FormEvent, ChangeEvent, useEffect } from 'react';
 import { Errors, Values, onEventArgs } from '../interfaces/interfaces';
 
 interface useFormArgs {
-    initialValues: Values;
-		onSubmit: ( args: onEventArgs ) => void;
-		onReset?: ( args: onEventArgs ) => void;
-		validate: ( values: Values ) => Errors;
-		validateOnChange?: boolean;
+	initialValues: Values;
+	onSubmit: ( args: onEventArgs ) => void;
+	onReset?: ( args: onEventArgs ) => void;
+	validate: ( values: Values ) => Errors;
+	validateOnChange?: boolean;
 }
 
 export const useForm = ( { initialValues, onSubmit, onReset, validate, validateOnChange = true }: useFormArgs ) => {

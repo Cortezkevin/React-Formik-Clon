@@ -47,30 +47,38 @@ export const ExampleWithHook = () => {
     <form onSubmit={ handleSubmit }>
 			<p>{ isSubmitting ? 'Cargando' : 'Listo' }</p>
 			<input 
+				placeholder="Enter a Username"
 				type="text" 
 				name="username" 
 				value={ values.username }
 				onChange={ handleChange }
 			/>
-			{errors.username && touched.username ? <div>{errors.username}</div> : null}			 
+			{errors.username && touched.username ? <small style={{ color: 'red'}}>{errors.username}</small> : null}			 
 			<input 
+				placeholder="Enter a Password"
 				type="text" 
 				name="password" 
+				title="password"
 				value={ values.password }
 				onChange={ handleChange }
 			/>
-			{errors.password && touched.password ? <div>{errors.password}</div> : null}
+			{errors.password && touched.password ? <small style={{ color: 'red'}}>{errors.password}</small> : null}
 			<button disabled={ isSubmitting || !isValid } type="submit">Test Submit</button>
 			<button disabled={ isSubmitting } type="button" onClick={() => handleReset() }>Reset</button>
-			<code>
-				{ JSON.stringify( values )}
-			</code>
-			<code>
-				{
-					JSON.stringify( errors )
-				}
-			</code>
-			<h4>{ JSON.stringify(touched) }</h4>
+			<div className="state-container">
+				<code>
+					<span>Values: </span>				
+					{ JSON.stringify( values )}
+				</code>
+				<code>
+					<span>Errors: </span>				
+					{ JSON.stringify( errors ) }
+				</code>
+				<code>
+					<span>Fields Touched: </span>
+					{ JSON.stringify(touched) }
+				</code>	
+			</div>		
 		</form> 
   )
 }

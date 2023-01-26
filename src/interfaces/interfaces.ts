@@ -14,17 +14,17 @@ interface FormHelpers {
 }
 
 export interface onEventArgs {
-    values: Values;
-    helpers: FormHelpers;
+	values: Values;
+	helpers: FormHelpers;
 }
 
 export interface FormHandlerArgs {
-    values: Values;
-    handleSubmit: ( e: FormEvent<HTMLFormElement>) => void;
-    isSubmitting: boolean;
-    handleChange: ( e: ChangeEvent<HTMLInputElement> ) => void;
-    handleReset: () => void;
-    errors: Errors;
-    touched: Values;
-    isValid: boolean;
+	values: Values;
+	handleSubmit: ( e: FormEvent<HTMLFormElement>) => void;
+	isSubmitting: boolean;
+	handleChange: ( e: ChangeEvent<HTMLInputElement> ) => void;
+	handleReset: () => void;
+	errors: Errors;
+	touched: Values;
+	isValid: boolean;
 }
