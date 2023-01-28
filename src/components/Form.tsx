@@ -1,33 +1,17 @@
-import { useForm } from '../hooks/useForm';
-import { Errors, FormHandlerArgs, Values, onEventArgs } from '../interfaces/interfaces';
+import { ReactElement, useContext } from "react"
+import { FormContext } from "./Formik"
 
-interface Props {
-  children: ( args: FormHandlerArgs ) => JSX.Element;
-  initialValues: Values;
-  onSubmit: ( args: onEventArgs ) => void;
-  onReset?: ( args: onEventArgs ) => void;
-  validate: ( values: Values ) => Errors;
-  validateOnChange: boolean;
+export interface Props {
+    children: ReactElement | ReactElement[]
 }
 
-export const Form = ({ initialValues, children, onSubmit, onReset, validate, validateOnChange }: Props) => {
+export const Form = ({ children }: Props) => {
 
-	const { handleSubmit, values, handleChange, isSubmitting, handleReset, errors, touched, isValid } = useForm({ initialValues, onSubmit, onReset, validate, validateOnChange });
+	const { handleSubmit } = useContext( FormContext );
 
   return (
-    <div>
-      {
-        children({
-          handleSubmit,
-          isSubmitting,
-          values,
-          handleChange,
-          handleReset,
-          errors,
-          touched,
-          isValid
-        })
-      }
-    </div>
+    <form onSubmit={ handleSubmit }>
+      { children }
+    </form>
   )
 }

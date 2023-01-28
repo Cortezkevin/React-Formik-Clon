@@ -1,11 +1,11 @@
-import { useState, FormEvent, ChangeEvent, useEffect } from 'react';
+import { useState, FormEvent, ChangeEvent, useEffect, FocusEvent } from 'react';
 import { Errors, Values, onEventArgs } from '../interfaces/interfaces';
 
 interface useFormArgs {
 	initialValues: Values;
 	onSubmit: ( args: onEventArgs ) => void;
 	onReset?: ( args: onEventArgs ) => void;
-	validate: ( values: Values ) => Errors;
+	validate?: ( values: Values ) => Errors;
 	validateOnChange?: boolean;
 }
 
@@ -23,12 +23,7 @@ export const useForm = ( { initialValues, onSubmit, onReset, validate, validateO
 			...values,
 			[e.target.name]: e.target.value
 		})		
-
-		setTouched({
-			...touched,
-			[e.target.name]: true
-		})
-
+		
 		setIsChangeValues( true );
 	}
 
@@ -57,10 +52,31 @@ export const useForm = ( { initialValues, onSubmit, onReset, validate, validateO
 		onSubmit({ values, helpers: { resetForm, setSubmitting } });				
 	}	
 
+	const handleBlur = ( e: FocusEvent<HTMLInputElement, Element>) => {		
+		validate && setErrors( validate( values ) );
+	}
+
+	const handleFocus = ( e: FocusEvent<HTMLInputElement, Element> )  => {
+		setTouched({
+			...touched,
+			[e.target.name]: true
+		})
+	}
+
+	const getFieldProps = ( field:string ) => {
+		return {
+			name: field,			
+			value: values[field],
+			onChange: handleChange,
+			onBlur: handleBlur,
+			onFocus: handleFocus
+		}
+	}
+
 	useEffect(() => {
 		if( isChangeValues ){
 			if( validateOnChange ){
-				setErrors( validate( values ));
+				validate && setErrors( validate( values ));
 			}			
 		}		
 	}, [ values ] );
@@ -84,11 +100,14 @@ export const useForm = ( { initialValues, onSubmit, onReset, validate, validateO
   return {
     handleSubmit,
     handleChange,
+		handleBlur,
+		handleFocus,
     values,
 		isSubmitting: submitting,
 		handleReset,
 		errors,
 		touched,
-		isValid
+		isValid,
+		getFieldProps
   }
 }

@@ -1,4 +1,8 @@
-import { FormEvent, ChangeEvent } from 'react'
+import { FormEvent, ChangeEvent, FocusEvent, ChangeEventHandler, FocusEventHandler } from 'react'
+import { Props as FormikProps } from '../components/Formik';
+import { Props as FieldProps  } from '../components/FormField';
+import { Props as ErrorMessageProps } from '../components/FormErrorMessage';
+import { Props as FormProps } from '../components/Form';
 
 export interface Values {
     [ key: string ]: any
@@ -18,13 +22,31 @@ export interface onEventArgs {
 	helpers: FormHelpers;
 }
 
+export interface getFieldProps {
+	name: string;
+	value: string;
+	onChange: ChangeEventHandler<HTMLInputElement>;
+	onBlur: FocusEventHandler<HTMLInputElement>;
+	onFocus: FocusEventHandler<HTMLInputElement>;
+}
+
 export interface FormHandlerArgs {
-	values: Values;
-	handleSubmit: ( e: FormEvent<HTMLFormElement>) => void;
 	isSubmitting: boolean;
-	handleChange: ( e: ChangeEvent<HTMLInputElement> ) => void;
-	handleReset: () => void;
+	values: Values;		
 	errors: Errors;
 	touched: Values;
-	isValid: boolean;
+	isValid: boolean;		
+	handleSubmit: ( e: FormEvent<HTMLFormElement>) => void;
+	handleChange: ( e: ChangeEvent<HTMLInputElement> ) => void;	
+	handleBlur: ( e: FocusEvent<HTMLInputElement, Element> ) => void;
+	handleFocus: ( e: FocusEvent<HTMLInputElement, Element>) => void;
+	handleReset: () => void;
+	getFieldProps: ( field: string ) => getFieldProps;
+}
+
+export interface FormikHOCProps {
+	( props: FormikProps ): JSX.Element;
+	Field: ( props: FieldProps) => JSX.Element;
+	ErrorMessage: ( props: ErrorMessageProps ) => JSX.Element;
+	Form: ( props: FormProps ) => JSX.Element;
 }
